@@ -1,32 +1,13 @@
 version: 0.2
 
-env:
-  variables:
-    AWS_DEFAULT_REGION: "us-east-1"
-    AWS_ACCOUNT_ID: "719737572889"
-    IMAGE_REPO_NAME: "brain-tasks-app"
-
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region us-east-1
-      - docker login --username AWS --password-stdin 719737572889.dkr.ecr.us-east-1.amazonaws.com
-      - echo Repository URI: 719737572889.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app
+      - chmod +x build.sh
 
   build:
     commands:
-      - echo Building the Docker image...
-      - docker build -t brain-tasks-app:latest .
-      - docker tag brain-tasks-app:latest 719737572889.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app:latest
-
-  post_build:
-    commands:
-      - echo Pushing the Docker images...
-      - docker push 719737572889.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app:latest
-      - echo Writing image definitions file...
-      - printf '[{"name":"brain-tasks-app","imageUri":"719737572889.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app:latest"}]' > imagedefinitions.json
+      - ./build.sh
 
 artifacts:
   files:
