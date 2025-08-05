@@ -1,5 +1,5 @@
 # Use nginx alpine as base image for serving static files
-FROM nginx:alpine
+FROM public.ecr.aws/nginx/nginx:alpine
 
 # Copy the built application files to nginx's default serving directory
 COPY Brain-Tasks-App-main/dist/ /usr/share/nginx/html/
