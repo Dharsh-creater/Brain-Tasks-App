@@ -5,7 +5,8 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 719737572889.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1
+      - docker login --username AWS --password-stdin 719737572889.dkr.ecr.us-east-1.amazonaws.com
       - echo Repository URI: 719737572889.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app
 
   build:
