@@ -1,0 +1,51 @@
+{
+  "applicationName": "brain-tasks-app",
+  "deploymentGroupName": "brain-tasks-deployment-group",
+  "deploymentConfigName": "CodeDeployDefault.ECSAllAtOnce",
+  "serviceRoleArn": "arn:aws:iam::719737572889:role/CodeDeployServiceRole",
+  "deploymentStyle": {
+    "deploymentType": "BLUE_GREEN",
+    "deploymentOption": "WITH_TRAFFIC_CONTROL"
+  },
+  "blueGreenDeploymentConfiguration": {
+    "terminateBlueInstancesOnDeploymentSuccess": {
+      "action": "TERMINATE",
+      "terminationWaitTimeInMinutes": 5
+    },
+    "deploymentReadyOption": {
+      "actionOnTimeout": "CONTINUE_DEPLOYMENT",
+      "waitTimeInMinutes": 0
+    },
+    "greenFleetProvisioningOption": {
+      "action": "COPY_AUTO_SCALING_GROUP"
+    }
+  },
+  "ecsServices": [
+    {
+      "serviceName": "brain-tasks-service",
+      "clusterName": "brain-tasks-cluster"
+    }
+  ],
+  "loadBalancerInfo": {
+    "targetGroupPairInfo": {
+      "targetGroups": [
+        {
+          "name": "brain-tasks-blue-tg"
+        },
+        {
+          "name": "brain-tasks-green-tg"
+        }
+      ],
+      "prodTrafficRoute": {
+        "listenerArns": [
+          "arn:aws:elasticloadbalancing:us-east-1:719737572889:listener/app/brain-tasks-alb/xxxxxxxxx/xxxxxxxxx"
+        ]
+      },
+      "testTrafficRoute": {
+        "listenerArns": [
+          "arn:aws:elasticloadbalancing:us-east-1:719737572889:listener/app/brain-tasks-alb/xxxxxxxxx/xxxxxxxxx"
+        ]
+      }
+    }
+  }
+} 
